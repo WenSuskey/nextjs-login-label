@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "npx prisma generate"
+    "postinstall": "npx prisma generate",
+    "lint": "eslint \"**/*.{js,ts,tsx}\" --cache"
+   
   },
   
   "dependencies": {
