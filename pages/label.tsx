@@ -2,7 +2,7 @@ import { BuildLabelCell } from "@/comp/buildLabelCell";
 import { useGetLabelByUser, useUpdateLabel } from "@/hooks/label";
 import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 const Label = () => {
   const [user, setUser] = useState("");
