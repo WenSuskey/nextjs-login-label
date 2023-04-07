@@ -1,28 +1,25 @@
-import { useUserName } from "@/hooks/user";
-import { Button, TextField, Typography } from "@mui/material";
-
-import { Stack } from "@mui/system";
-import { useRouter } from "next/router";
+import { useCreateUser } from "@/hooks/user";
+import { Button, Stack, TextField, Typography } from "@mui/material";
+import { User } from "@prisma/client";
 import { useState } from "react";
 
-const Index2 = () => {
-  const [username, setUsername] = useState("zack");
-  const { refetch } = useUserName(username);
-  const [password, setPassword] = useState("124");
-  const router = useRouter();
+const SignUp = () => {
+  const [name, setName] = useState("");
+  const [passWord, setPassWord] = useState("");
+  const { mutateAsync: createUser } = useCreateUser();
   const userNameHandler = (userName: string) => {
-    setUsername((prev) => userName);
+    setName((prev) => userName);
   };
   const passwordHandler = (passWord: string) => {
-    setPassword((prev) => passWord);
+    setPassWord((prev) => passWord);
   };
-  const signInHandler = async () => {
-    const data = await refetch();
-    setPassword(data.data.passWord);
-    if (data.data.passWord === password) {
-      window.localStorage.setItem("user", username);
-      router.push("/label");
-    }
+  const signUpHandler = async () => {
+    const user: User = {
+      id: "",
+      userName: name,
+      passWord: passWord,
+    };
+    await createUser({ user });
   };
   return (
     <Stack
@@ -43,22 +40,19 @@ const Index2 = () => {
         alignItems={"center"}
       >
         <Typography variant="h2" color={"black"} mt={"2rem"}>
-          Sign in
+          Sign up
         </Typography>
         <Stack width={"20rem"}>
           <Typography color={"black"} mt={"2rem"}>
             User Name:
           </Typography>
           <TextField
-            value={username}
             onChange={(e) => userNameHandler(e.target.value)}
           ></TextField>
           <Typography color={"black"} mt={"2rem"}>
             PassWord:
           </Typography>
           <TextField
-            type="password"
-            value={password}
             onChange={(e) => passwordHandler(e.target.value)}
           ></TextField>
         </Stack>
@@ -66,12 +60,12 @@ const Index2 = () => {
           <Button
             variant="contained"
             sx={{ height: "3rem" }}
-            onClick={() => signInHandler()}
+            onClick={() => signUpHandler()}
           >
-            Sign in
+            Sign up
           </Button>
           <Button sx={{ height: "2rem", mt: "1rem", width: "7rem" }}>
-            Sign up
+            Sign in
           </Button>
         </Stack>
         <Stack></Stack>
@@ -79,4 +73,5 @@ const Index2 = () => {
     </Stack>
   );
 };
-export default Index2;
+
+export default SignUp;
